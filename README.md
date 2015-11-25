@@ -66,9 +66,9 @@ relations considered (all, hypo), and three subfolders for different values of t
 
 If you are interested in further information about the BLC you can read these publications. Please cite us if you make use of our BLCs.
 
-+ [LINK](http://hdl.handle.net/10045/2522) Izquierdo R., Su‡rez A. and Rigau G. Exploring the Automatic Selection of Basic Level Concepts. Proceedings of the International Conference on Recent Advances on Natural Language Processing (RANLP'07), Borovetz, Bulgaria. September, 2007. 
-+ [LINK](http://dl.acm.org/citation.cfm?id=1609110) Izquierdo R., Su‡rez A. and Rigau G. An Empirical Study on Class-based Word Sense Disambiguation. Proceedings of the 12th Conference of the European Chapter of the Association for Computational Linguistics (EACL-09). Athens, Greece. 2009.
-+ [LINK](http://jair.org/papers/paper4727.html) Izquierdo R., Su‡rez A. and Rigau G. Word vs. Class-Based Word Sense Disambiguation. Journal of Artificial Intelligence Research. Volume 54, pages 83-122. 2015.
++ Izquierdo R., Suarez A. and Rigau G. Exploring the Automatic Selection of Basic Level Concepts. Proceedings of the International Conference on Recent Advances on Natural Language Processing (RANLP'07), Borovetz, Bulgaria. September, 2007. [URL](http://hdl.handle.net/10045/2522) 
++ Izquierdo R., Suarez A. and Rigau G. An Empirical Study on Class-based Word Sense Disambiguation. Proceedings of the 12th Conference of the European Chapter of the Association for Computational Linguistics (EACL-09). Athens, Greece. 2009. [URL](http://dl.acm.org/citation.cfm?id=1609110)
++ Izquierdo R., Suaez A. and Rigau G. Word vs. Class-Based Word Sense Disambiguation. Journal of Artificial Intelligence Research. Volume 54, pages 83-122. 2015. [URL](http://jair.org/papers/paper4727.html)
 
 ##Contact##
 * Ruben Izquierdo
