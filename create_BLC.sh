@@ -2,9 +2,9 @@
 
 ############################
 wn_folder=wordnets
-wn_version_folder=wordnet_3.0
-url_wn=http://wordnetcode.princeton.edu/3.0/WNdb-3.0.tar.gz
-wn_tgz=WNdb-3.0.tar.gz
+wn_version_folder=WordNet-3.0
+url_wn=http://wordnetcode.princeton.edu/3.0/WordNet-3.0.tar.gz
+wn_tgz=WordNet-3.0.tar.gz
 #############################
 
 
@@ -14,19 +14,10 @@ then
 fi
 cd $wn_folder
 
-if [ -d $wn_version_folder ];
-then
-  rm -rf $wn_version_folder
-fi
-
-mkdir $wn_version_folder
-cd $wn_version_folder
-
 wget $url_wn
 tar xzf $wn_tgz
 rm $wn_tgz
 
-cd ..
 cd ..
 
 if [ ! -d BLC ];

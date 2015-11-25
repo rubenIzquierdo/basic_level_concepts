@@ -59,7 +59,7 @@ You can also modify the script `create_BLC.sh` with the proper version of WordNe
 
 ##BLC extracted##
 
-BLC from WordNet 3.0 have been already generated and can be found in the folder `BLC/wordnet_3.0`. There are two subfolders for the two types of
+BLC from WordNet 3.0, 2.1, 1.7.1 and 1.6 have been already generated and can be found in the folder `BLC/WordNet-VERSION`. In each case, there are two subfolders for the two types of
 relations considered (all, hypo), and three subfolders for different values of the minimumn frequency (0,20,50).
 
 ##Related papers##
