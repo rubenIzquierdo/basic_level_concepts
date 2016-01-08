@@ -22,19 +22,24 @@ To extract BLC you need to run the script `extract_blc_from_wordnet.py`, which h
 ```shell
 usage: extract_blc_from_wordnet.py [-h] -i FD_WN_DATA_FILE -o FD_OUTPUT -t
                                    {all,hypo} -m MIN_FREQUENCY [-log] -pos
-                                   {n,v}
+                                   {n,v} [-start-at-synset]
 
 Extract BLC concepts from WordNet
 
 optional arguments:
   -h, --help          show this help message and exit
-  -i FD_WN_DATA_FILE  Wordnet data file
+  -i FD_WN_DATA_FILE  Wordnet data file (path to data.noun or data.verb)
   -o FD_OUTPUT        Output file
   -t {all,hypo}       Type of relations to consider
   -m MIN_FREQUENCY    Minimum number of synsets subsumed per BLC
   -log                Show log
   -pos {n,v}          POS tag
+  -start-at-synset    Start the iteration process at the synset itself
 ```
+
+The `-start-at-synset` parameter sets whether to start the iteration process at the synset itself on at the first hyperonym. If we provide
+this parameter, the process will start at the synset itself, and in some cases (if the criteria are satisfied) the synset could be selected
+as its own BLC. If we do not provide this parameter, the iteration process will start at the first hyperonym.
 
 For instance a valid call would be:
 ```shell
@@ -43,6 +48,15 @@ python extract_blc_from_wordnet.py -i wordnet3.0/dict/data.noun -o blc_wn30.txt 
 
 The format of the generated file `blc_wn30.txt` would be like:
 ```shell
+### START PARAMETERS
+### fd_output => blc_wn30.noun
+### fd_wn_data_file => /home/izquierdo/wordnets/wordnet-3.0/dict/data.noun
+### log => True
+### min_frequency => 20
+### pos => n
+### start_at_synset => False
+### type_relations => all
+### END PARAMETERS
 04958634 04916342 property.n#2 584
 13253423 13252973 transferred_possession.n#1 32
 02935387 03094503 container.n#1 603 
@@ -50,7 +64,7 @@ The format of the generated file `blc_wn30.txt` would be like:
 12149144 12147226 bamboo.n#2 7
 ```
 
-There are four fields per line. The first field is the synset identifier, the second field is the synset identifier of the BLC assigned.
+The lines at the beginning starting with `#` store the particular parameters that were used to generate the BLC in the file. There are four fields per line. The first field is the synset identifier, the second field is the synset identifier of the BLC assigned.
 The third is a more friendly format for the BLC synset in field 2, and finally the last field is the number of synsets subsumed by this BLC.
 For instance, the synset 10725893 which corresponds to fishpole_bamboo.n#1 or phyllostachys_aurea.n#1 is assigned with the BLC synset 12147226
 which corresponds to bamboo.n#2 (the second sense of the lemma bamboo). This BLC subsumes 7 synsets.

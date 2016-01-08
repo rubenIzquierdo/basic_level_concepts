@@ -50,14 +50,16 @@ def extract_hyperonyms(best_hyperonym,wn_list_for_synset):
     return list_hyperonyms
 
 
-def extract_blc(this_synset, wn_line_for_synset, type_relations, show_log=False):
+def extract_blc(this_synset, wn_line_for_synset, type_relations, start_at_synset, show_log=False):
     this_blc = 'fake_blc'
-    if show_log:
-        print 'BLC for synset', this_synset
+
     wn_line = wn_line_for_synset[this_synset]
     #print wn_line
     
     num_relations_for_synset, list_hyperonyms = extract_num_relations_and_hyperonyms(wn_line, type_relations)
+
+    if show_log:
+        print 'BLC for synset', this_synset, 'with %d relations' % num_relations_for_synset
     
     already_visited = set()
     if len(list_hyperonyms) == 0:
@@ -69,13 +71,18 @@ def extract_blc(this_synset, wn_line_for_synset, type_relations, show_log=False)
         already_visited.add(best_hyperonym)
         if show_log:
             print 'Best syn and num relations:', best_hyperonym, best_num_relations_for_hyperonym
-        previous = None
+            
+        if start_at_synset:
+            previous = this_synset
+        else:
+            previous = None
         
         if show_log:
             print '  Starting iteration'
             
-        while best_num_relations_for_hyperonym > num_relations_for_synset or previous is None:
-            
+        while best_num_relations_for_hyperonym > num_relations_for_synset or (not start_at_synset and previous is None):
+            if show_log:
+                print '    Step'
             hyperonyms = extract_hyperonyms(best_hyperonym,wn_line_for_synset)
             if show_log:
                 print '    Hyperonyms obtained for %s --> %s' % (best_hyperonym,str(hyperonyms))
@@ -111,6 +118,8 @@ def reassign_blc(this_blc, min_frequency,subsumed_by_blc,wn_line_for_synset,type
         print 'Calculating new BLC for %s which subsumes %d synsets' % (this_blc, subsumed)
     already_visited = set()
     best_hyperonym = this_blc
+    greatest_synset = None
+    greatest_subsumed = -1
     while subsumed < min_frequency:
         this_wn_line = wn_line_for_synset[best_hyperonym]
         hyperonyms = extract_hyperonyms(best_hyperonym,wn_line_for_synset)
@@ -126,13 +135,22 @@ def reassign_blc(this_blc, min_frequency,subsumed_by_blc,wn_line_for_synset,type
                 break
             else:
                 subsumed = subsumed_by_blc.get(best_hyperonym,0)
+                if subsumed >= greatest_subsumed:
+                    greatest_subsumed = subsumed
+                    greatest_synset = best_hyperonym
                 if show_log:
                     print '    This one subsumes: %d' % subsumed
             already_visited.add(best_hyperonym) 
         else:
             if show_log:
                 print '   No hyperonyms, so we stop'
-            best_hyperonym = this_blc
+            if greatest_subsumed >= 0:  
+                # we return the one with greatest number subsumed in the chain
+                best_hyperonym = greatest_synset
+            else:
+                #We dont find any other BLC in the chain that subsumes the min
+                # so we stay with the same as it was assigned
+                best_hyperonym = this_blc
             break
 
     return best_hyperonym
@@ -176,7 +194,9 @@ if __name__ == '__main__':
     argument_parser.add_argument('-m', dest='min_frequency', type=int, help='Minimum number of synsets subsumed per BLC', required=True)
     argument_parser.add_argument('-log', dest='log', action='store_true', help='Show log')
     argument_parser.add_argument('-pos', dest='pos', choices=['n','v'], help='POS tag', required=True)
+    argument_parser.add_argument('-start-at-synset', dest='start_at_synset', action='store_true', help='Start the iteration process at the synset itself')
     args = argument_parser.parse_args()
+
       
     wn_line_for_synset = {}
     for wn_line in args.fd_wn_data_file:
@@ -191,7 +211,7 @@ if __name__ == '__main__':
     
     #First selection of a BLC candidate for every synset
     for this_synset in wn_line_for_synset.keys():
-        this_blc = extract_blc(this_synset, wn_line_for_synset, args.type_relations, args.log)
+        this_blc = extract_blc(this_synset, wn_line_for_synset, args.type_relations, args.start_at_synset, args.log)
         #print this_synset, '-->', this_blc
         blc_for_synset[this_synset] = this_blc
         subsumed_by_blc[this_blc] += 1
@@ -221,7 +241,13 @@ if __name__ == '__main__':
     path_to_sense_index = path_to_data[:p+1]+'index.sense'
     friendly_blc_for_synset_pos = load_friendly_blc(path_to_sense_index)
     
-    
+    args.fd_output.write('### START PARAMETERS\n')
+    for p, v in args._get_kwargs():
+        if isinstance(v,file):
+            v = v.name
+        args.fd_output.write('### %s => %s\n' % (p,v))
+    args.fd_output.write('### END PARAMETERS\n')
+
     
     for this_synset, this_blc in final_blc_for_synset.items():
         friendly, frequency = friendly_blc_for_synset_pos[(this_blc,args.pos)]

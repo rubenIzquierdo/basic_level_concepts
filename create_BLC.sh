@@ -40,8 +40,11 @@ do
   do
     echo "  with frequency $freq ..."
     mkdir BLC/$wn_version_folder/$relation/$freq
-    python extract_blc_from_wordnet.py -i $wn_folder/$wn_version_folder/dict/data.noun -o BLC/$wn_version_folder/$relation/$freq/blc.noun -t $relation -m $freq -pos n
-    python extract_blc_from_wordnet.py -i $wn_folder/$wn_version_folder/dict/data.verb -o BLC/$wn_version_folder/$relation/$freq/blc.verb -t $relation -m $freq -pos v
+    #python extract_blc_from_wordnet.py -i $wn_folder/$wn_version_folder/dict/data.noun -o BLC/$wn_version_folder/$relation/$freq/blc.noun -t $relation -m $freq -pos n
+    #python extract_blc_from_wordnet.py -i $wn_folder/$wn_version_folder/dict/data.verb -o BLC/$wn_version_folder/$relation/$freq/blc.verb -t $relation -m $freq -pos v
+    python extract_blc_from_wordnet_german.py -i $wn_folder/$wn_version_folder/dict/data.noun -o BLC/$wn_version_folder/$relation/$freq/blc.noun -t $relation -m $freq -pos n
+    python extract_blc_from_wordnet_german.py -i $wn_folder/$wn_version_folder/dict/data.verb -o BLC/$wn_version_folder/$relation/$freq/blc.verb -t $relation -m $freq -pos v
+ 
   done
 done
 
