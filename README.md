@@ -89,4 +89,3 @@ If you are interested in further information about the BLC you can read these pu
 * Vrije University of Amsterdam
 * ruben.izquierdobevia@vu.nl  rubensanvi@gmail.com
 * http://rubenizquierdobevia.com/
-
